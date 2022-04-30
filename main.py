@@ -10,11 +10,9 @@ class Player(pygame.sprite.Sprite):
         self.player_walk = [player_walk_1, player_walk_2]
         self.player_index = 0
         self.player_jump = pygame.image.load('graphics/Player/jump.png').convert_alpha()
-
         self.image = self.player_walk[self.player_index]
         self.rect = self.image.get_rect(midbottom=(80, 300))
         self.gravity = 0
-
         self.jump_sound = pygame.mixer.Sound('audio/jump.mp3')
         self.jump_sound.set_volume(0.5) #número entre 0-1
 
@@ -99,12 +97,12 @@ def display_score():
 #     else:
 #         return []
 
-def collisions(player, obstacles):
-    if obstacles:
-        for obstacle_rect in obstacles:
-            if player.colliderect(obstacle_rect):
-                return False
-    return True
+# def collisions(player, obstacles):
+#     if obstacles:
+#         for obstacle_rect in obstacles:
+#             if player.colliderect(obstacle_rect):
+#                 return False
+#     return True
 
 # def player_animation():
 #     global player_surf, player_index
@@ -197,7 +195,6 @@ pygame.time.set_timer(obstacle_timer, 1500)
 # fly_animation_timer = pygame.USEREVENT + 3
 # pygame.time.set_timer(fly_animation_timer, 200)
 
-
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -260,7 +257,6 @@ while True:
 
         game_active = collisions_sprite()
 
-
         # Obstacle movement
         # obstacle_rect_list = obstacle_movement(obstacle_rect_list)
 
@@ -284,9 +280,3 @@ while True:
     pygame.display.update()
 
     clock.tick(60)
-
-
-# 02:01:28
-# 02:38:23
-# 02:49:39
-# 03:33:29
