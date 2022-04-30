@@ -214,5 +214,72 @@ while True:
     pygame.display.update()
     clock.tick(60)
 
-# 02:01:28
-# 02:38:23
+# code deleted to main project
+def obstacle_movement(obstacle_list):
+    if obstacle_list:
+        for obstacle_rect in obstacle_list:
+            obstacle_rect.x -= 5
+            if obstacle_rect.bottom == 300:
+                screen.blit(snail_surf, obstacle_rect)
+            else:
+                screen.blit(fly_surf, obstacle_rect)
+
+        obstacle_list = [obstacle for obstacle in obstacle_list if obstacle.x > -100]
+        return obstacle_list
+    else:
+        return []
+
+def player_animation():
+    global player_surf, player_index
+    if player_rect.bottom < 300:
+        player_surf = player_jump
+    else:
+        player_index += 0.1
+        if player_index >= len(player_walk): player_index = 0
+        player_surf = player_walk[int(player_index)]
+
+# Snail
+snail_frame_1 = pygame.image.load('graphics/snail/snail1.png').convert_alpha()
+snail_frame_2 = pygame.image.load('graphics/snail/snail2.png').convert_alpha()
+snail_frames = [snail_frame_1, snail_frame_2]
+snail_frame_index = 0
+snail_surf = snail_frames[snail_frame_index]
+# Fly
+fly_frame_1 = pygame.image.load('graphics/Fly/Fly1.png').convert_alpha()
+fly_frame_2 = pygame.image.load('graphics/Fly/Fly2.png').convert_alpha()
+fly_frames = [fly_frame_1, fly_frame_2]
+fly_frame_index = 0
+fly_surf = fly_frames[fly_frame_index]
+fly_surf_rect = fly_surf.get_rect()
+
+obstacle_rect_list = []
+
+# Player
+player_walk_1 = pygame.image.load('graphics/Player/player_walk_1.png').convert_alpha()
+player_walk_2 = pygame.image.load('graphics/Player/player_walk_2.png').convert_alpha()
+player_walk = [player_walk_1, player_walk_2]
+player_index = 0
+player_jump = pygame.image.load('graphics/Player/jump.png').convert_alpha()
+player_surf = player_walk[player_index]
+player_rect = player_surf.get_rect(midbottom=(80, 300))
+player_gravity = 0
+
+if event.type == snail_animation_timer:
+    if snail_frame_index == 0:
+        snail_frame_index = 1
+    else:
+        snail_frame_index = 0
+    snail_surf = snail_frames[snail_frame_index]
+
+if event.type == fly_animation_timer:
+    if fly_frame_index == 0:
+        fly_frame_index = 1
+    else:
+        fly_frame_index = 0
+    fly_surf = fly_frames[fly_frame_index]
+
+   if game_active:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if player_rect.collidepoint(event.pos):
+                    if player_rect.bottom >= 300:
+                        player_gravity = -20
